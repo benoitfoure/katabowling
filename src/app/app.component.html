@@ -18,16 +18,16 @@
 
       <div class="field">
         <label class="label">1st try:
-          <input type="number" [(ngModel)]="currentFrame[0]" class="input" [disabled]="end">
+          <input type="number" min="0" max="10" [(ngModel)]="currentFrame[0]" class="input" [disabled]="end">
         </label>
         <label class="label">2nd try:
-          <input type="number" [(ngModel)]="currentFrame[1]" class="input" [disabled]="end">
+          <input type="number" min="0" max="10" [(ngModel)]="currentFrame[1]" class="input" [disabled]="end">
         </label>
-        <label class="label">3rd try:
-          <input type="number" [(ngModel)]="currentFrame[2]" class="input" [disabled]="end">
+        <label class="label" *ngIf="line.length>8  && currentFrame[0]+currentFrame[1]>9">3rd try:
+          <input type="number" min="0" max="10" [(ngModel)]="currentFrame[2]" class="input" [disabled]="end">
         </label>
       
-        <button (click)="addLine()" class="button is-primary" [disabled]="end">Next!</button>
+        <button (click)="addLine()" class="button is-primary" [disabled]="end">{{line.length>8 ? "Finish!": "Next!"}}</button>
         <button (click)="reset()" class="button is-primary">New game</button>
 
       </div>
@@ -42,10 +42,14 @@
         No record yet
       </div>
       <div *ngFor="let frame of line; index as i">
-        <strong>Round #{{i+1}}:</strong> {{frame[0]}}, then {{frame[1]}}, then {{frame[2]}} pins down
+        <strong>Round #{{i+1}}:</strong> {{frame[0]}}, then {{frame[1]}}<span *ngIf="i==9 && frame[0]+frame[1]>9">, then {{frame[2]}}</span> pins down
       </div>
       <h1 class="title is-spaced" *ngIf="end">
-        Your score: {{getScore()}} points
+        Your score:
+        <span counto [step]="10" [countTo]="getScore()" [countFrom]="0" [duration]="2" (countoChange)="counto = $event" (countoEnd)="onCountoEnd()">
+          {{counto | number:'1.0-0'}} points
+        </span>
+
       </h1>
     </section>
   </div>
