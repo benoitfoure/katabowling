@@ -1,30 +1,58 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to kataBowling!
-  </h1>
-
-  <div *ngFor="let frame of line">
-    {{frame}}
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Welcome to kataBowling!
+      </h1>
+      <h2 class="subtitle">
+        Enter your hits to calculate your score !
+      </h2>
+    </div>
   </div>
-  <div *ngIf="!end">
-    <label>1st try:
-      <input type="number" [(ngModel)]="currentFrame[0]">
-    </label>
-    <label>2nd try:
-      <input type="number" [(ngModel)]="currentFrame[1]">
-    </label>
-    <label>3rd try:
-      <input type="number" [(ngModel)]="currentFrame[2]">
-    </label>
-    <button (click)="addLine()">Next!</button>
+</section>
+<div class="columns">
+
+  <div class="column">
+    <section class="section">
+      <h1 class="title">Current hits</h1>
+
+      <div class="field">
+        <label class="label">1st try:
+          <input type="number" [(ngModel)]="currentFrame[0]" class="input" [disabled]="end">
+        </label>
+        <label class="label">2nd try:
+          <input type="number" [(ngModel)]="currentFrame[1]" class="input" [disabled]="end">
+        </label>
+        <label class="label">3rd try:
+          <input type="number" [(ngModel)]="currentFrame[2]" class="input" [disabled]="end">
+        </label>
+      
+        <button (click)="addLine()" class="button is-primary" [disabled]="end">Next!</button>
+        <button (click)="reset()" class="button is-primary">New game</button>
+
+      </div>
+    </section>
+
   </div>
 
-  <h2 *ngIf="end">
-    Your score: {{getScore()}} points
-  </h2>
-  <button *ngIf="end" (click)="reset()">New game</button>
+  <div class="column">
+    <section class="section">
+      <h1 class="title">Hits record</h1>
+      <div *ngIf="line.length==0">
+        No record yet
+      </div>
+      <div *ngFor="let frame of line; index as i">
+        <strong>Round #{{i+1}}:</strong> {{frame[0]}}, then {{frame[1]}}, then {{frame[2]}} pins down
+      </div>
+      <h1 class="title is-spaced" *ngIf="end">
+        Your score: {{getScore()}} points
+      </h1>
+    </section>
+  </div>
 
 </div>
+
+
+
 
 
