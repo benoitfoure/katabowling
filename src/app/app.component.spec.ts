@@ -1,11 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { CountoModule }  from 'angular2-counto';
 
-describe('AppComponent', () => {
+describe('App setup', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule, CountoModule],
       declarations: [
         AppComponent
       ],
@@ -30,6 +31,17 @@ describe('AppComponent', () => {
     const score = app.getScore();
     expect(score).toEqual(0);
   });
+});
+
+describe('Basic features', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [FormsModule, CountoModule],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  }));
 
   it('should add a frame in the line when asked', () => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -46,6 +58,34 @@ describe('AppComponent', () => {
     app.addLine();
     expect(app.end).toBe(true);
   });
+  
+  it('should reset the line when a new game is launched', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.line = [[9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0]];
+    app.reset();
+    expect(app.line.length).toEqual(0);
+  });
+
+  it('should restart an ended game when asked', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.line = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    app.addLine();
+    app.reset();
+    expect(app.end).toBe(false);
+  });
+});  
+
+describe('Scoring', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [FormsModule, CountoModule],
+      declarations: [
+        AppComponent
+      ],
+    }).compileComponents();
+  }));
 
   it('should score the number of hits in the frame in case of no strike or spare', () => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -111,21 +151,5 @@ describe('AppComponent', () => {
     expect(score).toEqual(90);
   });
 
-  it('should reset the line when a new game is launched', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    app.line = [[9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0]];
-    app.reset();
-    expect(app.line.length).toEqual(0);
-  });
-
-  it('should restart an ended game when asked', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    app.line = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-    app.addLine();
-    app.reset();
-    expect(app.end).toBe(false);
-  });
   
 });

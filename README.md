@@ -1,6 +1,7 @@
 # Katabowling
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.0.
+It is also using [Bulma](https://bulma.io/) version 0.7.2 and [angular2-counto](https://www.npmjs.com/package/angular2-counto) version 1.3.5.
 
 ## Development server
 
