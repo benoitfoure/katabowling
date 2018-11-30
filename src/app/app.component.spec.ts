@@ -31,6 +31,22 @@ describe('AppComponent', () => {
     expect(score).toEqual(0);
   });
 
+  it('should add a frame in the line when asked', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.line = [[0, 0, 0]];
+    app.addLine();
+    expect(app.line.length).toEqual(2);
+  });
+
+  it('should end the game when the tenth frame is played', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.line = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    app.addLine();
+    expect(app.end).toBe(true);
+  });
+
   it('should score the number of hits in the frame in case of no strike or spare', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
@@ -95,7 +111,7 @@ describe('AppComponent', () => {
     expect(score).toEqual(90);
   });
 
-  it('should rest the line when a new game is launched', () => {
+  it('should reset the line when a new game is launched', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     app.line = [[9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0], [9, 0, 0]];
@@ -103,4 +119,13 @@ describe('AppComponent', () => {
     expect(app.line.length).toEqual(0);
   });
 
+  it('should restart an ended game when asked', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.line = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    app.addLine();
+    app.reset();
+    expect(app.end).toBe(false);
+  });
+  
 });
